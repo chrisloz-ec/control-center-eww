@@ -1,0 +1,172 @@
+window {
+  background-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+}
+
+.panel-popup-light {
+  background-color: rgba(248, 250, 252, 0.95);
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
+  padding: 25px;
+}
+
+.btn-cerrar {
+  color: #dc2626;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 5px 10px;
+}
+
+scale trough {
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 99px;
+  min-height: 8px;
+}
+
+scale trough highlight {
+  background-color: #4f46e5;
+  border-radius: 99px;
+}
+
+scale trough slider {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  min-height: 16px;
+  min-width: 16px;
+}
+
+.caja{
+  background: #F2F6FC;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  padding: 5px;
+}
+
+/* Date */
+.number_day {
+  font-size: 20;
+  font-weight: bold;
+  color: #000;
+}
+
+.time-side {
+  font-size: 20;
+  font-weight: bold;
+  color: #000;
+  padding-top: 10px
+}
+
+.day-side {
+  font-weight: bold;
+}
+
+.month {
+  font-size: 20;
+  font-weight: bold;
+}
+
+.year {
+  font-weight: bold; 
+}
+
+/*Control scale */
+.label-battery-side, .label-bright-side, .label-ram-side, .label-vol-side{
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 20px;
+}
+.label-ram-side {
+  font-size: 18px;
+  color: #D35D6E;
+}
+.label-battery-side {
+  font-size: 18px;
+  color: #90c861;
+}
+.label-vol-side {
+  font-size: 18px;
+  color: #c47eb7;
+}
+.slider-vol-side {
+  margin-top: 10px;
+}
+.slider-vol-side scale trough highlight {
+  all: unset;
+  background-color: #4f46e5;
+  color: #000000;
+  border-radius: 10px;
+}
+.slider-battery-side scale trough highlight {
+  all: unset;
+  background-color: #90c861;
+  color: #000000;
+  border-radius: 10px;
+}
+
+.icono {
+  font-family: "JetBrainsMono Nerd Font", "JetBrainsMono NF", sans-serif;
+  font-size: 20px;
+  color: #4f46e5;
+}
+
+/*Scale informativos */
+.barra-informativa scale trough slider {
+  background: transparent;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  min-height: 0px;
+  min-width: 0px;
+}
+
+.barra-informativa scale trough {
+  min-height: 10px;
+  border-radius: 99px;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.barra-informativa scale trough highlight {
+  background-color: #90c861;
+  border-radius: 99px;
+}
+
+/* Zona de toggles */
+.zona-toggles {
+  margin: 10px 0px;
+}
+
+.btn-toggle {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  min-width: 70px;
+  min-height: 50px;
+  transition: all 200ms ease;
+}
+
+.btn-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.09);
+}
+
+.btn-toggle.active {
+  background-color: #4f46e5;
+}
+
+.btn-toggle.active .icono-toggle {
+  color: #ffffff; /* Icono blanco si esta activo */
+}
+
+.icono-toggle {
+  font-family: "JetBrainsMono Nerd Font", "JetBrainsMono NF";
+  font-size: 20px;
+  color: #334155; /* Gris oscuro estetico */
+}
+
+.lbl-toggle {
+  font-size: 12px;
+  color: #475569;
+  font-weight: 500;
+}

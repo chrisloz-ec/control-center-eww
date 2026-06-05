@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Calculamos el porcentaje usando operaciones de enteros puras de awk, evitando decimales y locales
+free -m | awk '/Mem:/ {print int(($3 / $2) * 100)}'

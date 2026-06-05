@@ -1,0 +1,139 @@
+;; =========================================================================
+;; DECLARATION OF VARIABLES
+;; =========================================================================
+ ;; Date vars
+    (defpoll number_day :interval "5h"  "date \"+%d\"")
+    (defpoll month :interval "10h"  "date \"+%b\"")
+    (defpoll min :interval "10s"  "date \"+%M\"")
+    (defpoll hour :interval "10s"  "date \"+%H\"")
+    (defpoll day :interval "15h"  "~/.config/eww/scripts/getday")
+    (defpoll month_full :interval "15h"  "date \"+%B\"")
+    (defpoll year_full :interval "15h"  "date \"+%Y\"")
+
+  ;;System vars
+    (defpoll volume :interval "100ms"  "~/.config/eww/scripts/getvol")
+    (defpoll ram-used :interval "4s"  "~/.config/eww/scripts/getram")
+    (defpoll battery-remaining :interval "5s" "~/.config/eww/scripts/getbattery")
+    (defpoll cpu-usage :interval "3s" "~/.config/eww/scripts/getcpu")
+    (defpoll nombre-red :interval "5s" "~/.config/eww/scripts/getnetwork")
+
+  ;; Verify Wi-Fi or Bluetooth ON
+  (defpoll wifi-status :interval "2s" "nmcli radio wifi")
+  (defpoll bluetooth-status :interval "2s" "hciconfig | grep -q 'UP' && echo 'up' || echo 'down'")
+
+;; =========================================================================
+;; MAIN WINDOW CONFIGURATION
+;; =========================================================================
+(defwindow centro-control
+  :monitor 0
+  :geometry (geometry :x "-1%"
+                      :y "-6%"  
+                      :width "27%" 
+                      :height "65%"
+                      :anchor "bottom right")
+  :stacking "fg"
+  :windowtype "dock"  
+  :wm-ignore false        
+  :focusable true 
+  :onappear "~/.config/eww/scripts/autoclose_panels &"
+  (contenido))
+
+;; =========================================================================
+;; INTERNAL STRUCTURE OF THE PANEL
+;; =========================================================================
+(defwidget contenido []
+  ;; Container
+  (box :class "panel-popup-light"
+       :orientation "v" 
+       :space-evenly false 
+       :spacing 18
+       :vexpand false
+       :valign "start"
+    
+    ;; Head
+    (box :orientation "h"
+      (label :style "font-size: 16px; font-weight: 700; color: #1e293b;" :text "Centro de Control" :halign "start")
+      ;; Botón de cerrar estilizado para fondo claro
+      (button :class "btn-cerrar"
+              :onclick "eww close centro-control" 
+              :halign "end" "✕"))
+    
+    ;; Date and Time
+    (box :orientation "h" :spacing 5
+      (box :orientation "v" :space-evenly "false" :class "caja"
+            (box :class "number_day" {number_day})
+            (box :class "day-side" {day}))
+      (box :orientation "v" :space-evenly "false" :class "caja"
+        (box :orientation "v" :space-evenly "false" 
+          (label :class "month" :text "${month_full}")
+          (label :class "year" :text {year_full})
+        )
+      )
+      (box :orientation "v" :space-evenly "false" :class "caja"
+        (label :class "minute-side time-side" :text "${hour} : ${min}")
+      )
+    )
+
+    ;; RAM-CPU-Battery and Volume Control
+    (box :orientation "v" :space-evenly "false" :class "caja" 
+      (box :orientation "h" :spacing 5 :class "barra-informativa scale"
+        (box :orientation "h" :class "slider-ram-side" :space-evenly "false" 
+          (box :class "label-ram-side" "")
+          (scale :min 0 :active "false" :max 101 :value {ram-used} :hexpand true))
+        (box :orientation "h" :class "slider-cpu-side" :space-evenly "false" :hexpand true
+          (label :class "icono" :text "")
+          (scale :min 0 :max 101 :active false :value "${cpu-usage}" :hexpand true)) 
+        (box :orientation "h" :class "slider-battery-side" :space-evenly "false" 
+          (label :class "label-battery-side" :text "󱊦")
+          (scale :min 0 :active "false" :max 101 :value "${battery-remaining}" :hexpand true)))
+      (box :orientation "h" :class "slider-vol-side" :space-evenly "false" 
+        (label :class "label-vol-side" :text "󰕾")
+        (scale :min 0 :max 101 :value {volume} :onchange "amixer set Master {}%" :hexpand true)
+        (button :class "icono" :onclick "pavucontrol &" "󰺣"))      
+    )
+
+    ;; Toggle-Style quick button section
+    (box :orientation "h" :spacing 20 :halign "center" :class "zona-toggles"
+      ;; Toggle de Wi-Fi Inteligente
+  (box :orientation "v" :spacing 6 :space-evenly false
+    (button :class "${wifi-status == 'enabled' ? 'btn-toggle active' : 'btn-toggle'}" 
+            :onclick "nm-connection-editor &"
+      (box :orientation "h" :space-evenly true
+        (label :class "icono-toggle" :text "󰖩")))
+    (label :class "lbl-toggle" :text "${nombre-red}"))
+
+  ;; Toggle de Bluetooth Inteligente
+  (box :orientation "v" :spacing 6 :space-evenly false
+    (button :class "${bluetooth-status == 'up' ? 'btn-toggle active' : 'btn-toggle'}" 
+            :onclick "blueman-manager &"
+      (box :orientation "h" :space-evenly true
+        (label :class "icono-toggle" :text "󰂯")))
+    (label :class "lbl-toggle" :text "Bluetooth"))
+      ;; Toggle de Portapapeles
+      (box :orientation "v" :spacing 6 :space-evenly false
+        (button :class "btn-toggle" :onclick "xfce4-clipman-history &"
+          (box :orientation "h" :space-evenly true
+            (label :class "icono-toggle" :text "")))
+        (label :class "lbl-toggle" :text "Portapapeles"))
+    )
+    (box :orientation "h" :spacing 20 :halign "center" :class "zona-toggles" 
+      ;; Toggle de Captura
+      (box :orientation "v" :spacing 6 :space-evenly false
+        (button :class "btn-toggle" :onclick "xfce4-screenshooter &"
+          (box :orientation "h" :space-evenly true
+            (label :class "icono-toggle" :text "󰻜")))
+        (label :class "lbl-toggle" :text "Captura"))
+      ;; Toggle de Monitor
+      (box :orientation "v" :spacing 6 :space-evenly false
+        (button :class "btn-toggle" :onclick "xfce4-taskmanager &"
+          (box :orientation "h" :space-evenly true
+            (label :class "icono-toggle" :text "󰝪")))
+        (label :class "lbl-toggle" :text "Monitor"))
+      ;; Toggle de Actualizaciones
+      (box :orientation "v" :spacing 6 :space-evenly false
+        (button :class "btn-toggle" :onclick "mintupdate &"
+          (box :orientation "h" :space-evenly true
+            (label :class "icono-toggle" :text "󰦘")))
+        (label :class "lbl-toggle" :text "Actualizaciones"))
+    )
+))

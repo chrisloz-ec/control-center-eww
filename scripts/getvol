@@ -1,0 +1,4 @@
+# !/bin/bash
+
+# Extrae el primer número de porcentaje [X%] de forma segura
+amixer sget Master | grep -oP '\[\d+%\]' | head -n 1 | tr -d '[]%'

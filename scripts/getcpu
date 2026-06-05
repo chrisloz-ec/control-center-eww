@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Lee el estado del CPU en dos momentos separados por un breve instante para calcular la diferencia real
+read -r _ user nice system idle iowait irq softirq steal guest guest_nice < /proc/stat
+previdle=$((idle + iowait))
+prevnonidle=$((user + nice + system + irq + softirq + steal))
+prevtotal=$((previdle + prevnonidle))
+
+sleep 0.2
+
+read -r _ user nice system idle iowait irq softirq steal guest guest_nice < /proc/stat
+idle=$((idle + iowait))
+nonidle=$((user + nice + system + irq + softirq + steal))
+total=$((idle + nonidle))
+
+totald=$((total - prevtotal))
+idled=$((idle - previdle))
+
+# Calculamos el porcentaje de uso
+if [ $totald -gt 0 ]; then
+    CPU_USAGE=$(( (totald - idled) * 100 / totald ))
+else
+    CPU_USAGE=0
+fi
+
+echo "$CPU_USAGE"

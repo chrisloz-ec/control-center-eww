@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# 1. Buscamos conexiones reales activas, ignorando por completo la interfaz virtual 'lo'
+REDO_NAME=$(nmcli -t -f ACTIVE,NAME,DEVICE connection show | grep "^yes:" | grep -v ":lo$" | cut -d ":" -f2 | head -n 1)
+
+# 2. Evaluamos el resultado de forma segura
+if [ -z "$REDO_NAME" ]; then
+    echo "No conectado"
+else
+    # Si hay red, la recortamos a 10 letras para mantener el diseño en una sola línea
+    echo "$REDO_NAME" | cut -c1-10
+fi

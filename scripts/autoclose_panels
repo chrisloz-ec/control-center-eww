@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Esperamos un instante a que el panel aparezca por completo
+sleep 0.1
+
+# Usamos xprop para escuchar de forma continua los cambios de la ventana activa en XFCE
+xprop -root -spy _NET_ACTIVE_WINDOW | while read -r _; do
+    # Cada vez que el usuario hace clic en el escritorio u otra app, cambia la ventana activa.
+    # Cuando eso pasa, verificamos si nuestro panel sigue abierto.
+    if eww windows | grep -q '\*centro-control'; then
+        # Enviamos la orden de cerrar el panel de forma segura
+        eww close centro-control
+        exit 0
+    fi
+done
