@@ -11,18 +11,19 @@ Aquí se muestra el diseño original con paleta clara, esquinas redondeadas pron
 ## Recursos, Fuentes e Iconografía
 Para el correcto renderizado gráfico y visual del panel, se instalaron y configuraron los siguientes recursos iconográficos:
 
-Tipografía del Sistema / Iconos: JetBrainsMono Nerd Font (Proporciona soporte completo para los glifos geométricos de la interfaz).
+### Tipografía del Sistema / Iconos: 
+JetBrainsMono Nerd Font (Proporciona soporte completo para los glifos geométricos de la interfaz).
 
-Iconos Utilizados (Nerd Fonts):
-󰖩 Wi-Fi Activo / Estado de Red
-󰂯 Bluetooth
-󱊦 Estado de la Batería
-" Monitor de CPU y Memoria RAM
-󰕾 Volumen / 󰺣 Ecualizador
- Historial del Portapapeles
-󰻜" Captura de pantalla
-󰝪 Gestor de tareas
-󰦘 Centro de Actualizaciones del Sistema
+### Iconos Utilizados (Nerd Fonts):
+- 󰖩 Wi-Fi Activo / Estado de Red
+- 󰂯 Bluetooth
+- 󱊦 Estado de la Batería
+- " Monitor de CPU y Memoria RAM
+- 󰕾 Volumen / 󰺣 Ecualizador
+-  Historial del Portapapeles
+- 󰻜" Captura de pantalla
+- 󰝪 Gestor de tareas
+- 󰦘 Centro de Actualizaciones del Sistema
 
 ## Dependencias y Componentes del Sistema
 El panel no utiliza interfaces simuladas; interactúa directamente con los binarios y controladores nativos de Linux Mint a través de comandos ejecutados en segundo plano (&):
@@ -36,26 +37,25 @@ El panel no utiliza interfaces simuladas; interactúa directamente con los binar
 A continuación, se detallan todos los comandos que se ejecutaron en la terminal para instalar dependencias, levantar servicios internos y asegurar el correcto funcionamiento del entorno gráfico.
 
 ### 1. Instalación de Herramientas del Sistema y Portapapeles
-Para resolver el error de binarios faltantes (not found) y dotar al panel de un gestor de portapapeles nativo, se ejecutó:
+Para resolver el error de binarios faltantes (not found) y dotar al panel de un gestor de portapapeles nativo, se ejecutó:<br>
 `sudo apt update && sudo apt install xfce4-clipman-plugin xinput xdotool -y`
 
 ### 2. Activación y Autoarranque del Demonio del Portapapeles
-Para inicializar el motor de copiado en segundo plano de manera inmediata:
-`xfce4-clipman &`
+Para inicializar el motor de copiado en segundo plano de manera inmediata:<br>
+`xfce4-clipman &`<br>
 Nota: Para asegurar que se ejecute solo al iniciar la computadora, se añadió el comando xfce4-clipman dentro de la herramienta gráfica "Sesión e Inicio" -> "Autoarranque de aplicaciones" de Linux Mint.
 
 ### 3. Comando del Lanzador Inteligente (Toggle)
-Para prescindir de botones de cierre internos (X), se configuró el botón disparador de la barra de tareas con el comando nativo de alternancia de Eww:
+Para prescindir de botones de cierre internos (X), se configuró el botón disparador de la barra de tareas con el comando nativo de alternancia de Eww:<br>
 `eww open --toggle centro-control`
 
 ## Arquitectura de Código y Lógica Scripting
 El proyecto está estructurado de manera modular dentro de ~/.config/eww/ dividiéndose de la siguiente manera:
 
 ### 1. Scripting en Bash (scripts/getnetwork)
-Este script se ejecuta en intervalos de 2 segundos mediante un defpoll en Eww. Filtra las interfaces virtuales para obtener exclusivamente el nombre real de la red activa:
+Este script se ejecuta en intervalos de 2 segundos mediante un defpoll en Eww. Filtra las interfaces virtuales para obtener exclusivamente el nombre real de la red activa:<br>
 `#!/bin/bash
 REDO_NAME=$(nmcli -t -f ACTIVE,NAME,DEVICE connection show | grep "^yes:" | grep -v ":lo$" | cut -d ":" -f2 | head -n 1)
-
 if [ -z "$REDO_NAME" ]; then
     echo "No conectado"
 else
@@ -63,9 +63,8 @@ else
 fi`
 
 ### 2. Monitoreo de Hardware Dinámico (eww.yuck)
-Se implementaron bloques condicionales ternarios para alterar las clases CSS del componente en tiempo real según el estado del hardware:
+Se implementaron bloques condicionales ternarios para alterar las clases CSS del componente en tiempo real según el estado del hardware:<br>
 `(defpoll wifi-status :interval "2s" "nmcli radio wifi")
-
 (button :class "${wifi-status == 'enabled' ? 'btn-toggle active' : 'btn-toggle'}" 
         :onclick "nm-connection-editor &"`
 
