@@ -40,17 +40,17 @@ A continuación, se detallan todos los comandos que se ejecutaron en la terminal
 Para resolver el error de binarios faltantes (not found) y dotar al panel de un gestor de portapapeles nativo, se ejecutó:<br>
 `sudo apt update && sudo apt install xfce4-clipman-plugin xinput xdotool -y`
 
-### 2. Activación y Autoarranque del Demonio del Portapapeles
+### 2. Activación y Autoarranque del Portapapeles
 Para inicializar el motor de copiado en segundo plano de manera inmediata:<br>
 `xfce4-clipman &`<br>
 Nota: Para asegurar que se ejecute solo al iniciar la computadora, se añadió el comando xfce4-clipman dentro de la herramienta gráfica "Sesión e Inicio" -> "Autoarranque de aplicaciones" de Linux Mint.
 
-En caso de no abrir el portapapeles o mostrar dialogos, como ya se está ejecutando o no está activo puede modificar el onclic en el archivo .yuck:
+En caso de no abrir el portapapeles o mostrar dialogos, como ya se está ejecutando o no está activo puede modificar el onclic en el archivo .yuck:<br>
 `:onclick "pgrep -x xfce4-clipman > /dev/null || xfce4-clipman & sleep 0.1 && xfce4-clipman-history &"`<br>
 Y ejecutar en la terminal:<br>
 `xfconf-query -c xfce4-panel -p /plugins/clipman/tweaks/inhibit-when-empty -s false 2>/dev/null || true
 xfconf-query -c xfce4-panel -p /plugins/clipman/settings/save-on-quit -s true 2>/dev/null || true
-xfconf-query -c xfce4-panel -p /plugins/clipman/settings/max-texts-in-history -s 10 2>/dev/null || true`
+xfconf-query -c xfce4-panel -p /plugins/clipman/settings/max-texts-in-history -s 10 2>/dev/null || true`<br>
 Y reinicia el servicio para aplicar los cambios:<br>
 `pkill xfce4-clipman && xfce4-clipman &`
 
