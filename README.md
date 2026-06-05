@@ -48,9 +48,9 @@ Nota: Para asegurar que se ejecute solo al iniciar la computadora, se añadió e
 En caso de no abrir el portapapeles o mostrar dialogos, como ya se está ejecutando o no está activo puede modificar el onclic en el archivo .yuck:<br>
 `:onclick "pgrep -x xfce4-clipman > /dev/null || xfce4-clipman & sleep 0.1 && xfce4-clipman-history &"`<br>
 Y ejecutar en la terminal:<br>
-`xfconf-query -c xfce4-panel -p /plugins/clipman/tweaks/inhibit-when-empty -s false 2>/dev/null || true
-xfconf-query -c xfce4-panel -p /plugins/clipman/settings/save-on-quit -s true 2>/dev/null || true
-xfconf-query -c xfce4-panel -p /plugins/clipman/settings/max-texts-in-history -s 10 2>/dev/null || true`<br>
+`xfconf-query -c xfce4-panel -p /plugins/clipman/tweaks/inhibit-when-empty -s false 2>/dev/null || true`<br>
+`xfconf-query -c xfce4-panel -p /plugins/clipman/settings/save-on-quit -s true 2>/dev/null || true`<br>
+`xfconf-query -c xfce4-panel -p /plugins/clipman/settings/max-texts-in-history -s 10 2>/dev/null || true`<br>
 Y reinicia el servicio para aplicar los cambios:<br>
 `pkill xfce4-clipman && xfce4-clipman &`
 
