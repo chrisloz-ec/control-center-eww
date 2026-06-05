@@ -1,11 +1,4 @@
-# Mi Centro de Control Eww (v1.0 - Tema Light)
-
-### Demostración Visual
-![Miniatura del Panel V1](assets/v1-preview.png)
-
-
-
-# Centro de Control Personalizado con Eww (Widgets del Sistema)
+# Centro de Control Personalizado con Eww (Widgets del Sistema) (Tema Light)
 Este repositorio contiene la configuración completa de un Centro de Control (Control Center) flotante, minimalista y responsivo desarrollado con Eww (Elkowars Wacky Widgets) sobre el entorno de escritorio XFCE en Linux Mint.
 El panel incluye selectores rápidos (quick toggles), monitores de rendimiento en tiempo real, barras de control deslizantes y accesos directos automatizados a herramientas del sistema.
 
