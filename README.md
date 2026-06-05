@@ -45,6 +45,15 @@ Para inicializar el motor de copiado en segundo plano de manera inmediata:<br>
 `xfce4-clipman &`<br>
 Nota: Para asegurar que se ejecute solo al iniciar la computadora, se añadió el comando xfce4-clipman dentro de la herramienta gráfica "Sesión e Inicio" -> "Autoarranque de aplicaciones" de Linux Mint.
 
+En caso de no abrir el portapapeles o mostrar dialogos, como ya se está ejecutando o no está activo puede modificar el onclic en el archivo .yuck:
+`:onclick "pgrep -x xfce4-clipman > /dev/null || xfce4-clipman & sleep 0.1 && xfce4-clipman-history &"`<br>
+Y ejecutar en la terminal:<br>
+`xfconf-query -c xfce4-panel -p /plugins/clipman/tweaks/inhibit-when-empty -s false 2>/dev/null || true
+xfconf-query -c xfce4-panel -p /plugins/clipman/settings/save-on-quit -s true 2>/dev/null || true
+xfconf-query -c xfce4-panel -p /plugins/clipman/settings/max-texts-in-history -s 10 2>/dev/null || true`
+Y reinicia el servicio para aplicar los cambios:<br>
+`pkill xfce4-clipman && xfce4-clipman &`
+
 ### 3. Comando del Lanzador Inteligente (Toggle)
 Para prescindir de botones de cierre internos (X), se configuró el botón disparador de la barra de tareas con el comando nativo de alternancia de Eww:<br>
 `eww open --toggle centro-control`
